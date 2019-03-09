@@ -18,8 +18,6 @@ public:
     void SetPrev(lista* nod) { prev = nod;}
 
     friend void insert_final(lista* &c, int x);
-    friend ostream& operator <<(istream& i, lista* c);
-
     lista();
     ~lista();
 };
@@ -54,12 +52,6 @@ void insert_final(lista* &c, int x)
     }
 }
 
-
-ostream& operator <<(ostream& i, lista* c)
-{
-    i<<c->GetI()<<" ";
-    return i;
-}
 int main()
 {
     ifstream f("input.in");
@@ -74,7 +66,7 @@ int main()
     c = c->GetNext();
     for(int i = 0; i < n; i++)
     {
-        cout<<(c);
+        cout<<c->GetI()<<" ";
         c = (c->GetNext());
     }
 
