@@ -24,6 +24,7 @@ public:
 
     friend ostream& operator <<(istream& i, lista* c);
     friend istream& operator >>(istream& i, lista* c);
+    friend lista* operator +(lista&,lista*);
 
     lista();
 };
@@ -47,6 +48,22 @@ ostream& operator <<(ostream& o, lista* c)
 {
     o << c->GetI() << " ";
     return o;
+}
+
+lista* operator +(lista& first, lista *first2)
+{
+    lista *c1 = &first;
+    while (c1->GetNext() != &first)
+        c1 = c1->GetNext();
+    lista *c2 = first2;
+    while (c2->GetNext() != first2)
+        c2 = c2->GetNext();
+    c1->SetNext(first2);
+    first2->SetPrev(c1);
+
+    c2->SetNext(&first);
+    first.SetPrev(c2);
+    return &first;
 }
 
 void insert_final(lista* &c, lista* new_element)
@@ -293,7 +310,7 @@ void menu(lista* first, int n) //meniul principal al programului
         antet
         int x;
         cout << "Dati valoarea nodului pe care vreti sa-l stergeti: "; cin>>x;
-        remove_x(first, first, x);
+        remove_x(first, first, x);  //primul first este inceputul liste, al doilea de unde vrem sa incepem cautarea
         n--;
         cout << endl << "Nod sters cu succes." << endl ;
         cout<<endl<<"Apasa orice tasta pentru a te intoarce..."<<endl;
@@ -302,57 +319,39 @@ void menu(lista* first, int n) //meniul principal al programului
     }
     case 5:
     {
-        int k=read(first,n,0);
-        cout<<k;
-        remove_k(first,first,n,k);
+        int k=read(first,n,0);      //citim din cate in cate vrem sa facem stergerea
+        remove_k(first,first,n,k);  //primul first este inceputul liste, al doilea de unde vrem sa incepem cautarea, n lungimea listei
         cout << endl << "Noduri sterse cu succes." << endl ;
         cout<<endl<<"Apasa orice tasta pentru a te intoarce..."<<endl;
         getch();
         break;
     }
+    case 6:
+    {
+        int n2=0;
+        lista *c2  = new lista, *first2 = c2;
+        read(c2,n2,1);           //citesc a doua lista
+        first = (*first+first2); //concatenez cele 2 liste, trimitand primele 2 noduri de la fiecare lista
+        n+=n2;                   //actualizez lungimea noii liste
+        cout << endl << "Liste concatenate cu succes." << endl ;
+        cout<<endl<<"Apasa orice tasta pentru a te intoarce..."<<endl;
+        getch();
+        break;
+    }
+    case 9:
+        exit(0);
 
 
     }
-    menu(first, n);
+    menu(first, n); //revin la meniul principal
 }
-
-
-
 
 int main()
 {
     ifstream f("input.in");
-    int x,n=0,caz;
-    lista *c  = new lista, *new_element = new lista, *first = c;
-
+    int n=0;                            //lungimea listei
+    lista *c  = new lista, *first = c;  //c = nod curent, first = primul nod din lista
     read(c,n,1);
     menu(first, n);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    while(f>>new_element)
-//    {
-//        insert_final(c,new_element);
-//        new_element = new lista;
-//        n++;
-//    }
-    c = first;
-    for(int i = 0; i < n; i++)
-    {
-        cout << c;
-        c = (c->GetNext());
-    }
-
     return 0;
 }
