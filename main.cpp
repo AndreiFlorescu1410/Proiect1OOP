@@ -19,6 +19,7 @@ public:
 
     friend void insert_final(lista* &c, int x);
     friend ostream& operator <<(istream& i, lista* c);
+    friend istream& operator >>(istream& i, lista* c);
 
     lista();
     ~lista();
@@ -29,10 +30,24 @@ lista::lista()
     next = NULL;
     prev = NULL;
 }
-void insert_final(lista* &c, int x)
+
+
+istream& operator >>(istream& i, lista* c)
 {
-    lista* new_element = new lista;
-    new_element->SetI(x);
+    int x;
+    i>>x;
+    c->SetI(x);
+    return i;
+}
+
+ostream& operator <<(ostream& o, lista* c)
+{
+    o << c->GetI() << " ";
+    return o;
+}
+
+void insert_final(lista* &c, lista* new_element)
+{
     if (c == NULL)
         c=new_element;
     else if (c->GetNext() == NULL)
@@ -53,21 +68,15 @@ void insert_final(lista* &c, int x)
         c = new_element;
     }
 }
-
-
-ostream& operator <<(ostream& i, lista* c)
-{
-    i<<c->GetI()<<" ";
-    return i;
-}
 int main()
 {
     ifstream f("input.in");
     int x,n=0;
-    lista *c  = NULL, *l=c;
-    while(f>>x)
+    lista *c  = NULL, *new_element = new lista;
+    while(f>>new_element)
     {
-        insert_final(c,x);
+        insert_final(c,new_element);
+        new_element = new lista;
         n++;
     }
 
