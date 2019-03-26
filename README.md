@@ -1,7 +1,7 @@
 # Proiect1OOP
 Liste circulare de numere intregi (implementate dinamic)
 
-->clasa lista sa fie prietena a clasei nod  
+ Clasa lista trebuie sa  
 ->sa contina metode de: introducere a unui element (unde alege programatorul)  
 ->supraincarcare a operatorului >>, realizata prin introduceri succesive  
 ->supraincarcare a operatorului <<; pentru afisarea listei;  
